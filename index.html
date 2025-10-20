@@ -242,11 +242,6 @@
             margin-top: auto;
         }
 
-        .item-card-actions .btn {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.9rem;
-        }
-
         /* Sold Out State */
         .item-card.sold-out {
             filter: grayscale(100%);
@@ -339,981 +334,233 @@
             border-bottom: none;
         }
 
-        .modal-total {
-            text-align: right;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .modal-actions {
+        .modal-buttons {
             display: flex;
-            gap: 1rem;
-        }
-
-        /* --- Staff Dashboard --- */
-        .staff-tabs {
-            display: flex;
-            background: #fff;
-            border-bottom: 2px solid var(--border-color);
-            padding: 0 5%;
-        }
-
-        .staff-tab {
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--secondary-color);
-            border-bottom: 3px solid transparent;
-            background: none;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-        }
-
-        .staff-tab.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-        }
-
-        .staff-content {
-            padding: 1rem 5%;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-card h3 {
-            font-size: 1rem;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card p {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--dark-gray);
-        }
-
-        .stock-table,
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .stock-table th,
-        .stock-table td,
-        .orders-table th,
-        .orders-table td {
-            padding: 0.8rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .stock-table th,
-        .orders-table th {
-            background: var(--light-gray);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        /* Toggle Switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background-color: var(--success-color);
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(22px);
-        }
-
-        .system-controls {
+            justify-content: space-between;
             margin-top: 2rem;
         }
 
-        .system-controls .btn {
-            max-width: 400px;
-        }
-
-        /* --- Loading Spinner --- */
-        .loading-spinner {
-            border: 5px solid var(--border-color);
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 5rem auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* --- Helper Classes --- */
-        .hidden {
-            display: none !important;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-2 {
-            margin-top: 2rem;
-        }
-
-        .error-message {
-            color: var(--danger-color);
-            background: #fbebee;
-            border: 1px solid var(--danger-color);
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        /* --- Responsive (Mobile-first) --- */
-        @media (min-width: 768px) {
-            .menu-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-
-            .header,
-            .menu-container,
-            .cart-footer,
-            .staff-tabs,
-            .staff-content {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
+        .modal-buttons .btn {
+            width: 48%;
         }
     </style>
 </head>
 
 <body>
-
     <div id="app">
-        <!-- The app will be rendered here by JavaScript -->
-        <div class="loading-spinner"></div>
+        <!-- App content rendered dynamically by JS -->
     </div>
 
-    <script>
-        // --- APPLICATION STATE ---
-        // A central object to hold our app's data.
-        // This data is now local and will reset on page refresh.
+    <script type="module">
+        // --- Application State ---
         const state = {
-            currentUser: null, // { type: 'student', grNumber: '12345' } or { type: 'staff' }
-            cart: {}, // { itemId: 1, itemId2: 3 }
-            isOrderingWindowActive: false,
-            orderingStartTime: {
-                hour: 7,
-                minute: 25
-            },
-            orderingEndTime: {
-                hour: 23,
-                minute: 59
-            },
-            // Mock data that was previously in Firebase
-            items: [{
-                id: 'item01',
-                name: 'Veg Samosa',
-                price: 1.50,
-                imageUrl: 'https://placehold.co/400x300/f8b400/FFF?text=Samosa',
-                totalLimit: 50,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, {
-                id: 'item02',
-                name: 'Chicken Sandwich',
-                price: 3.00,
-                imageUrl: 'https://placehold.co/400x300/8b5a2b/FFF?text=Sandwich',
-                totalLimit: 40,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, {
-                id: 'item03',
-                name: 'Fruit Salad',
-                price: 2.50,
-                imageUrl: 'https://placehold.co/400x300/4caf50/FFF?text=Fruit+Salad',
-                totalLimit: 30,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, {
-                id: 'item04',
-                name: 'Orange Juice',
-                price: 1.00,
-                imageUrl: 'https://placehold.co/400x300/ff9800/FFF?text=Juice',
-                totalLimit: 100,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, {
-                id: 'item05',
-                name: 'Cheese Pizza',
-                price: 4.00,
-                imageUrl: 'https://placehold.co/400x300/f44336/FFF?text=Pizza',
-                totalLimit: 25,
-                currentOrdered: 23, // Example of low stock
-                manualSoldOut: false
-            }, {
-                id: 'item06',
-                name: 'Iced Coffee',
-                price: 2.75,
-                imageUrl: 'https://placehold.co/400x300/603813/FFF?text=Coffee',
-                totalLimit: 30,
-                currentOrdered: 30, // Example of sold out stock
-                manualSoldOut: false
-            }, {
-                id: 'item07',
-                name: 'Beef Burger',
-                price: 5.50,
-                imageUrl: 'https://placehold.co/400x300/795548/FFF?text=Burger',
-                totalLimit: 35,
-                currentOrdered: 5,
-                manualSoldOut: false
-            }, {
-                id: 'item08',
-                name: 'Choc Muffin',
-                price: 2.00,
-                imageUrl: 'https://placehold.co/400x300/3e2723/FFF?text=Muffin',
-                totalLimit: 60,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, {
-                id: 'item09',
-                name: 'Water Bottle',
-                price: 0.50,
-                imageUrl: 'https://placehold.co/400x300/2196F3/FFF?text=Water',
-                totalLimit: 150,
-                currentOrdered: 10,
-                manualSoldOut: false
-            }, {
-                id: 'item10',
-                name: 'Caesar Salad',
-                price: 4.50,
-                imageUrl: 'https://placehold.co/400x300/8BC34A/FFF?text=Salad',
-                totalLimit: 20,
-                currentOrdered: 18,
-                manualSoldOut: false
-            }, {
-                id: 'item11',
-                name: 'Fresh Apple',
-                price: 0.75,
-                imageUrl: 'https://placehold.co/400x300/E91E63/FFF?text=Apple',
-                totalLimit: 80,
-                currentOrdered: 0,
-                manualSoldOut: false
-            }, ],
-            orders: [], // Will store placed orders locally
+            user: null,
+            role: null,
+            menuItems: [],
+            cart: [],
+            staffPassword: 'staff123', // demo password
         };
 
-        // --- DOM ELEMENTS ---
-        const $app = document.getElementById('app');
+        // --- Mock Data (can later fetch from Firebase) ---
+        const sampleItems = [
+            { id: 1, name: 'Burger', price: 5, stock: 10, img: '', soldOut: false },
+            { id: 2, name: 'Pizza', price: 8, stock: 0, img: '', soldOut: true },
+            { id: 3, name: 'Sandwich', price: 4, stock: 5, img: '', soldOut: false },
+        ];
 
-        // --- HELPER FUNCTIONS ---
-        function router() {
-            const hash = window.location.hash || '#/';
+        // Initialize
+        state.menuItems = sampleItems;
 
-            if (hash === '#/menu' && state.currentUser?.type === 'student') {
-                renderStudentMenu();
-            } else if (hash === '#/staff' && state.currentUser?.type === 'staff') {
-                renderStaffDashboard();
-            } else {
-                window.location.hash = '#/';
-                renderLoginPage();
-            }
-        }
-
-        function render(html) {
-            $app.innerHTML = html;
-        }
-
-        function getFormattedTime(date) {
-            return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-        }
-
-        function checkOrderingWindow() {
-            const now = new Date();
-            const startTime = new Date();
-            startTime.setHours(state.orderingStartTime.hour, state.orderingStartTime.minute, 0, 0);
-
-            const endTime = new Date();
-            endTime.setHours(state.orderingEndTime.hour, state.orderingEndTime.minute, 0, 0);
-
-            state.isOrderingWindowActive = (now >= startTime && now <= endTime);
-        }
-
-        function getCartTotals() {
-            let totalItems = 0;
-            let totalPrice = 0;
-
-            for (const itemId in state.cart) {
-                const quantity = state.cart[itemId];
-                const item = state.items.find(i => i.id === itemId);
-                if (item) {
-                    totalItems += quantity;
-                    totalPrice += item.price * quantity;
-                }
-            }
-            return {
-                totalItems,
-                totalPrice
-            };
-        }
-
-        // --- LOGIN PAGE ---
-        function renderLoginPage() {
-            const html = `
+        // --- Render Functions ---
+        function renderLogin() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
                 <div class="container login-container">
-                    <h2>Smart Canteen</h2>
-                    <div id="error-message" class="error-message hidden"></div>
-                    
+                    <h2>Smart Canteen Login</h2>
                     <div class="login-toggle">
-                        <button id="student-tab" class="active">Student</button>
-                        <button id="staff-tab">Staff</button>
+                        <button id="studentBtn" class="active">Student</button>
+                        <button id="staffBtn">Staff</button>
                     </div>
-
-                    <form id="student-login-form">
-                        <div class="form-group">
-                            <label for="gr-number">GR Number</label>
-                            <input type="tel" id="gr-number" placeholder="Enter your 3-6 digit GR Number" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login / View Menu</button>
-                    </form>
-
-                    <form id="staff-login-form" class="hidden">
-                        <div class="form-group">
-                            <label for="staff-password">Password</label>
-                            <input type="password" id="staff-password" placeholder="Enter staff password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login to Dashboard</button>
-                    </form>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group" id="passwordGroup" style="display:none;">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter staff password">
+                    </div>
+                    <button id="loginBtn" class="btn btn-primary">Login</button>
                 </div>
             `;
-            render(html);
-            addLoginListeners();
-        }
 
-        function addLoginListeners() {
-            const $studentTab = document.getElementById('student-tab');
-            const $staffTab = document.getElementById('staff-tab');
-            const $studentForm = document.getElementById('student-login-form');
-            const $staffForm = document.getElementById('staff-login-form');
-
-            $studentTab.addEventListener('click', () => {
-                $studentTab.classList.add('active');
-                $staffTab.classList.remove('active');
-                $studentForm.classList.remove('hidden');
-                $staffForm.classList.add('hidden');
+            // Toggle role
+            document.getElementById('studentBtn').addEventListener('click', () => {
+                state.role = 'student';
+                document.getElementById('studentBtn').classList.add('active');
+                document.getElementById('staffBtn').classList.remove('active');
+                document.getElementById('passwordGroup').style.display = 'none';
             });
 
-            $staffTab.addEventListener('click', () => {
-                $staffTab.classList.add('active');
-                $studentTab.classList.remove('active');
-                $staffForm.classList.remove('hidden');
-                $studentForm.classList.add('hidden');
+            document.getElementById('staffBtn').addEventListener('click', () => {
+                state.role = 'staff';
+                document.getElementById('staffBtn').classList.add('active');
+                document.getElementById('studentBtn').classList.remove('active');
+                document.getElementById('passwordGroup').style.display = 'block';
             });
 
-            $studentForm.addEventListener('submit', handleStudentLogin);
-            $staffForm.addEventListener('submit', handleStaffLogin);
+            state.role = 'student';
+
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
         }
 
-        function handleStudentLogin(e) {
-            e.preventDefault();
-            const grNumber = document.getElementById('gr-number').value;
-            const $errorMessage = document.getElementById('error-message');
+        function handleLogin() {
+            const username = document.getElementById('username').value.trim();
+            if (!username) return alert('Please enter your username.');
 
-            if (!/^\d{3,6}$/.test(grNumber)) {
-                $errorMessage.textContent = 'Invalid GR Number. Must be 3-6 digits.';
-                $errorMessage.classList.remove('hidden');
-                return;
+            if (state.role === 'staff') {
+                const password = document.getElementById('password').value;
+                if (password !== state.staffPassword) return alert('Incorrect password.');
             }
-            state.currentUser = {
-                type: 'student',
-                grNumber: grNumber
-            };
-            window.location.hash = '#/menu';
+
+            state.user = username;
+            if (state.role === 'student') renderStudentMenu();
+            else renderStaffDashboard();
         }
 
-        function handleStaffLogin(e) {
-            e.preventDefault();
-            const password = document.getElementById('staff-password').value;
-            const $errorMessage = document.getElementById('error-message');
-
-            if (password === 'staff123') { // Simple hardcoded password
-                state.currentUser = {
-                    type: 'staff'
-                };
-                window.location.hash = '#/staff';
-            } else {
-                $errorMessage.textContent = 'Incorrect password.';
-                $errorMessage.classList.remove('hidden');
-            }
-        }
-
-        // --- STUDENT MENU PAGE ---
         function renderStudentMenu() {
-            checkOrderingWindow();
-            const windowMessage = state.isOrderingWindowActive ?
-                `<span class="timer">ORDERING OPEN</span>` :
-                `Ordering: ${getFormattedTime(new Date(0,0,0,state.orderingStartTime.hour, state.orderingStartTime.minute))} - ${getFormattedTime(new Date(0,0,0,state.orderingEndTime.hour, state.orderingEndTime.minute))}`;
-
-            const html = `
-                <header class="header">
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="header">
                     <div class="header-info">
-                        <span>GR: <strong>${state.currentUser.grNumber}</strong></span>
+                        <span>Welcome, ${state.user}</span>
+                        <span class="timer">12:00 PM</span>
                     </div>
-                    <div class="header-info">
-                        ${windowMessage}
-                        <button id="logout-btn" class="btn btn-secondary" style="width:auto; margin-left: 1rem; padding: 0.5rem 1rem;">Logout</button>
-                    </div>
-                </header>
-
-                <main class="menu-container">
-                    <div id="menu-grid" class="menu-grid"></div>
-                </main>
-
-                <footer id="cart-footer" class="cart-footer hidden"></footer>
-                <div id="confirmation-modal" class="modal-overlay hidden"></div>
+                </div>
+                <div class="menu-container">
+                    <div class="menu-grid" id="menuGrid"></div>
+                </div>
+                <div class="cart-footer" id="cartFooter">
+                    <div class="cart-footer-info">Total: $<span id="cartTotal">0</span></div>
+                    <button class="btn btn-success" id="checkoutBtn">Checkout</button>
+                </div>
             `;
-            render(html);
-
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                state.currentUser = null;
-                state.cart = {};
-                window.location.hash = '#/';
-            });
-            
-            // Render the grid with local data
             renderMenuGrid();
+            updateCartFooter();
         }
 
         function renderMenuGrid() {
-            const $grid = document.getElementById('menu-grid');
-            if (!state.items.length) {
-                $grid.innerHTML = '<p>No items available in the menu right now.</p>';
-                return;
-            }
-
-            $grid.innerHTML = state.items.map(item => {
-                const remaining = item.totalLimit - item.currentOrdered;
-                const isSoldOut = remaining <= 0;
-                const isManuallySoldOut = item.manualSoldOut;
-                const isDisabled = isSoldOut || isManuallySoldOut;
-
-                let stockMessage = '';
-                if (isManuallySoldOut) {
-                    stockMessage = 'Unavailable';
-                } else if (isSoldOut) {
-                    stockMessage = 'Sold Out';
-                } else if (remaining <= 10) {
-                    stockMessage = `<span class="low">${remaining} left!</span>`;
-                } else {
-                    stockMessage = `${remaining} remaining`;
-                }
-
-                return `
-                    <div class="item-card ${isDisabled ? 'sold-out' : ''}">
-                        <img src="${item.imageUrl}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eee/aaa?text=Error';">
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+            state.menuItems.forEach(item => {
+                const soldClass = item.stock === 0 ? 'sold-out' : '';
+                const lowStock = item.stock > 0 && item.stock <= 3 ? 'low' : '';
+                grid.innerHTML += `
+                    <div class="item-card ${soldClass}">
+                        <img src="${item.img || 'https://via.placeholder.com/150'}" alt="${item.name}">
                         <div class="item-card-body">
                             <h3>${item.name}</h3>
-                            <p class="item-card-stock">${stockMessage}</p>
-                            <p class="item-card-price">AED ${item.price.toFixed(2)}</p>
+                            <div class="item-card-stock ${lowStock}">${item.stock === 0 ? 'Sold Out' : item.stock + ' left'}</div>
+                            <div class="item-card-price">$${item.price}</div>
                             <div class="item-card-actions">
-                                ${renderItemButton(item, isDisabled)}
+                                <button class="btn btn-primary" ${item.stock === 0 ? 'disabled' : ''} onclick="addToCart(${item.id})">Add</button>
                             </div>
                         </div>
                     </div>
                 `;
-            }).join('');
+            });
+        }
 
-            addMenuGridListeners();
+        function addToCart(id) {
+            const item = state.menuItems.find(i => i.id === id);
+            if (!item || item.stock <= 0) return;
+
+            const cartItem = state.cart.find(i => i.id === id);
+            if (cartItem) cartItem.qty++;
+            else state.cart.push({ ...item, qty: 1 });
+
+            item.stock--;
+            if (item.stock === 0) item.soldOut = true;
+            renderMenuGrid();
             updateCartFooter();
         }
 
-        function renderItemButton(item, isDisabled) {
-            if (isDisabled) {
-                return `<button class="btn btn-secondary" disabled>Sold Out</button>`;
-            }
-            const quantityInCart = state.cart[item.id] || 0;
-            if (quantityInCart === 0) {
-                return `<button class="btn btn-primary" data-id="${item.id}" data-action="add">Add</button>`;
-            }
-            return `
-                <button class="btn btn-secondary" data-id="${item.id}" data-action="remove" style="width: 40px;">-</button>
-                <span style="font-weight: 700;">${quantityInCart}</span>
-                <button class="btn btn-primary" data-id="${item.id}" data-action="add" style="width: 40px;">+</button>
-            `;
-        }
-
-        function addMenuGridListeners() {
-            const $grid = document.getElementById('menu-grid');
-            $grid.addEventListener('click', (e) => {
-                const button = e.target.closest('button');
-                if (!button) return;
-                const {
-                    action,
-                    id
-                } = button.dataset;
-                if (!id || !action) return;
-
-                if (action === 'add') addToCart(id);
-                else if (action === 'remove') removeFromCart(id);
-            });
-        }
-
-        function addToCart(itemId) {
-            const item = state.items.find(i => i.id === itemId);
-            const quantityInCart = state.cart[itemId] || 0;
-            const remainingStock = item.totalLimit - item.currentOrdered;
-
-            if (quantityInCart < remainingStock) {
-                state.cart[itemId] = (state.cart[itemId] || 0) + 1;
-                renderMenuGrid();
-            } else {
-                // In a real app, a more user-friendly notification would be better than an alert.
-                const tempModal = document.createElement('div');
-                tempModal.className = 'modal-overlay';
-                tempModal.innerHTML = `<div class="modal-content text-center"><p>No more stock available for this item!</p><button class="btn btn-primary mt-2">OK</button></div>`;
-                document.body.appendChild(tempModal);
-                tempModal.querySelector('button').addEventListener('click', () => tempModal.remove());
-            }
-        }
-
-        function removeFromCart(itemId) {
-            if (state.cart[itemId] > 1) {
-                state.cart[itemId] -= 1;
-            } else {
-                delete state.cart[itemId];
-            }
-            renderMenuGrid();
-        }
-
         function updateCartFooter() {
-            const $footer = document.getElementById('cart-footer');
-            const {
-                totalItems,
-                totalPrice
-            } = getCartTotals();
-
-            if (totalItems === 0) {
-                $footer.classList.add('hidden');
-                return;
-            }
-
-            $footer.classList.remove('hidden');
-            $footer.innerHTML = `
-                <div class="cart-footer-info">
-                    ${totalItems} Items <span>AED ${totalPrice.toFixed(2)}</span>
-                </div>
-                <button id="preview-order-btn" class="btn btn-success">Preview Order</button>
-            `;
-
-            document.getElementById('preview-order-btn').addEventListener('click', showConfirmationModal);
+            const total = state.cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
         }
 
-        function showConfirmationModal() {
-            checkOrderingWindow();
-            const $modal = document.getElementById('confirmation-modal');
-            const {
-                totalPrice
-            } = getCartTotals();
-
-            const cartItemsHtml = Object.keys(state.cart).map(itemId => {
-                const item = state.items.find(i => i.id === itemId);
-                const quantity = state.cart[itemId];
-                return `
-                    <div class="modal-list-item">
-                        <span>${item.name} (x${quantity})</span>
-                        <strong>AED ${(item.price * quantity).toFixed(2)}</strong>
-                    </div>
-                `;
-            }).join('');
-
-            const canOrder = state.isOrderingWindowActive;
-
-            $modal.innerHTML = `
-                <div class="modal-content">
-                    <h2>Confirm Your Order</h2>
-                    ${!canOrder ? `<p class="error-message">The ordering window is now closed. You can preview, but not place an order.</p>` : ''}
-                    <div class="modal-list">${cartItemsHtml}</div>
-                    <p class="modal-total">Total: AED ${totalPrice.toFixed(2)}</p>
-                    <div class="modal-actions">
-                        <button id="cancel-modal-btn" class="btn btn-secondary">Cancel</button>
-                        <button id="confirm-order-btn" class="btn btn-success" ${!canOrder ? 'disabled' : ''}>Place Order</button>
-                    </div>
-                </div>
-            `;
-
-            $modal.classList.remove('hidden');
-            $modal.querySelector('#cancel-modal-btn').addEventListener('click', () => $modal.classList.add('hidden'));
-            $modal.querySelector('#confirm-order-btn').addEventListener('click', handlePlaceOrder);
-        }
-
-        function handlePlaceOrder() {
-            const $button = document.getElementById('confirm-order-btn');
-            $button.textContent = 'Placing...';
-            $button.disabled = true;
-
-            // --- Check stock before processing ---
-            for (const itemId in state.cart) {
-                const quantity = state.cart[itemId];
-                const item = state.items.find(i => i.id === itemId);
-                const remainingStock = item.totalLimit - item.currentOrdered;
-                if (quantity > remainingStock || item.manualSoldOut) {
-                    showOrderError(`Sorry, ${item.name} just sold out or became unavailable!`);
-                    return;
-                }
-            }
-
-            // --- Process the order ---
-            const itemsForOrder = [];
-            for (const itemId in state.cart) {
-                const quantity = state.cart[itemId];
-                const item = state.items.find(i => i.id === itemId);
-                
-                // Update the stock count in the local state
-                item.currentOrdered += quantity;
-                
-                itemsForOrder.push({
-                    id: itemId,
-                    name: item.name,
-                    quantity: quantity,
-                    price: item.price
-                });
-            }
-
-            const { totalPrice } = getCartTotals();
-            const newOrder = {
-                grNumber: state.currentUser.grNumber,
-                items: itemsForOrder,
-                totalPrice: totalPrice,
-                status: 'placed',
-                createdAt: new Date()
-            };
-            
-            state.orders.push(newOrder);
-            showOrderSuccess();
-        }
-
-        function showOrderSuccess() {
-            const $modal = document.getElementById('confirmation-modal');
-            $modal.innerHTML = `
-                <div class="modal-content text-center">
-                    <h2 style="color: var(--success-color);">Order Placed!</h2>
-                    <p>Your order has been successfully submitted.</p>
-                    <p>GR Number: <strong>${state.currentUser.grNumber}</strong></p>
-                    <button id="order-ok-btn" class="btn btn-success mt-2">OK</button>
-                </div>
-            `;
-            state.cart = {};
-            $modal.querySelector('#order-ok-btn').addEventListener('click', () => {
-                window.location.hash = '#/';
-            });
-        }
-
-        function showOrderError(message) {
-            const $modal = document.getElementById('confirmation-modal');
-            $modal.innerHTML = `
-                <div class="modal-content text-center">
-                    <h2 style="color: var(--danger-color);">Order Failed</h2>
-                    <p>${message}</p>
-                    <p>Please adjust your cart and try again.</p>
-                    <button id="order-error-btn" class="btn btn-danger mt-2">Back to Cart</button>
-                </div>
-            `;
-            $modal.querySelector('#order-error-btn').addEventListener('click', () => {
-                $modal.classList.add('hidden');
-            });
-        }
-
-        // --- STAFF DASHBOARD ---
+        // --- Staff Dashboard ---
         function renderStaffDashboard() {
-            const html = `
-                <header class="header">
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="header">
                     <div class="header-info">
-                        <span><strong>Staff Dashboard</strong></span>
-                    </div>
-                    <button id="logout-btn" class="btn btn-secondary" style="width:auto; padding: 0.5rem 1rem;">Logout</button>
-                </header>
-
-                <nav class="staff-tabs">
-                    <button id="tab-overview" class="staff-tab active" data-content="overview-content">Overview</button>
-                    <button id="tab-stock" class="staff-tab" data-content="stock-content">Stock Management</button>
-                    <button id="tab-orders" class="staff-tab" data-content="orders-content">Live Orders</button>
-                    <button id="tab-system" class="staff-tab" data-content="system-content">System</button>
-                </nav>
-
-                <main class="staff-content">
-                    <div id="overview-content" class="tab-content"></div>
-                    <div id="stock-content" class="tab-content hidden"></div>
-                    <div id="orders-content" class="tab-content hidden"></div>
-                    <div id="system-content" class="tab-content hidden"></div>
-                </main>
-            `;
-            render(html);
-            addStaffDashboardListeners();
-            renderOverview();
-            renderStockManagement();
-            renderLiveOrders();
-            renderSystemControls();
-        }
-        
-        function addStaffDashboardListeners() {
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                state.currentUser = null;
-                window.location.hash = '#/';
-            });
-
-            const $tabs = document.querySelectorAll('.staff-tab');
-            const $contents = document.querySelectorAll('.tab-content');
-
-            $tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    $tabs.forEach(t => t.classList.remove('active'));
-                    $contents.forEach(c => c.classList.add('hidden'));
-                    tab.classList.add('active');
-                    document.getElementById(tab.dataset.content).classList.remove('hidden');
-                });
-            });
-        }
-
-        function renderOverview() {
-            const $content = document.getElementById('overview-content');
-            
-            let totalOrders = state.orders.length;
-            let totalRevenue = state.orders.reduce((sum, order) => sum + order.totalPrice, 0);
-            const itemCounts = {};
-            state.orders.forEach(order => {
-                order.items.forEach(item => {
-                    itemCounts[item.name] = (itemCounts[item.name] || 0) + item.quantity;
-                });
-            });
-            const sortedItems = Object.entries(itemCounts).sort(([,a], [,b]) => b - a);
-            
-            let topItemsHtml = '<p>No orders yet today.</p>';
-            if(sortedItems.length > 0) {
-                 topItemsHtml = `
-                    <table class="orders-table">
-                        <thead><tr><th>Item</th><th>Quantity Sold</th></tr></thead>
-                        <tbody>
-                            ${sortedItems.map(([name, count]) => `<tr><td>${name}</td><td>${count}</td></tr>`).join('')}
-                        </tbody>
-                    </table>`;
-            }
-
-            $content.innerHTML = `
-                <h2>Order Summary</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>Total Orders</h3>
-                        <p>${totalOrders}</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Total Revenue</h3>
-                        <p>AED ${totalRevenue.toFixed(2)}</p>
+                        <span>Staff: ${state.user}</span>
                     </div>
                 </div>
-                <h3>Top Selling Items</h3>
-                ${topItemsHtml}
+                <div class="container">
+                    <h2>Stock Management</h2>
+                    <div id="stockList"></div>
+                    <button class="btn btn-danger" id="resetBtn">End-of-Day Reset</button>
+                </div>
             `;
+            renderStockManagement();
+            document.getElementById('resetBtn').addEventListener('click', handleSystemReset);
         }
 
         function renderStockManagement() {
-            const $content = document.getElementById('stock-content');
-            
-            const tableRows = state.items.map(item => `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.currentOrdered} / ${item.totalLimit}</td>
-                    <td>
-                        <label class="switch">
-                            <input type="checkbox" class="stock-toggle" data-id="${item.id}" ${item.manualSoldOut ? 'checked' : ''}>
-                            <span class="slider"></span>
-                        </label>
-                    </td>
-                </tr>
-            `).join('');
-
-            $content.innerHTML = `
-                <h2>Stock Management</h2>
-                <table class="stock-table">
-                    <thead><tr><th>Item</th><th>Stock (Sold / Total)</th><th>Manual Sold Out</th></tr></thead>
-                    <tbody>${tableRows}</tbody>
-                </table>
-            `;
-            
-            document.querySelectorAll('.stock-toggle').forEach(toggle => {
-                toggle.addEventListener('change', handleStockToggle);
+            const container = document.getElementById('stockList');
+            container.innerHTML = '';
+            state.menuItems.forEach(item => {
+                container.innerHTML += `
+                    <div class="modal-list-item">
+                        <span>${item.name}</span>
+                        <span>
+                            Stock: <input type="number" value="${item.stock}" min="0" style="width:60px;" onchange="updateStock(${item.id}, this.value)">
+                        </span>
+                    </div>
+                `;
             });
         }
-        
-        function handleStockToggle(e) {
-            const itemId = e.target.dataset.id;
-            const isSoldOut = e.target.checked;
-            const item = state.items.find(i => i.id === itemId);
-            if(item) {
-                item.manualSoldOut = isSoldOut;
-            }
-        }
 
-        function renderLiveOrders() {
-            const $content = document.getElementById('orders-content');
-             const orderRows = [...state.orders].reverse().map(order => {
-                 const time = order.createdAt.toLocaleTimeString();
-                 const itemsList = order.items.map(i => `${i.name} (x${i.quantity})`).join(', ');
-                 return `
-                    <tr>
-                        <td>${time}</td>
-                        <td>${order.grNumber}</td>
-                        <td>${itemsList}</td>
-                        <td>AED ${order.totalPrice.toFixed(2)}</td>
-                    </tr>
-                 `;
-             }).join('');
-
-            $content.innerHTML = `
-                <h2>Live Orders</h2>
-                <p>Showing new orders for today. This list updates when you place a new order.</p>
-                <table class="orders-table" style="margin-top: 1rem;">
-                    <thead><tr><th>Time</th><th>GR Number</th><th>Items</th><th>Total</th></tr></thead>
-                    <tbody>${orderRows}</tbody>
-                </table>
-            `;
-        }
-
-        function renderSystemControls() {
-            const $content = document.getElementById('system-content');
-            $content.innerHTML = `
-                <h2>System Controls</h2>
-                <p>Warning: These actions are permanent for your current session.</p>
-                <div class="system-controls mt-2">
-                    <button id="reset-system-btn" class="btn btn-danger">Perform End-of-Day Reset</button>
-                    <p style="margin-top: 0.5rem; color: var(--secondary-color);">
-                        This will delete all of today's orders and reset all item stock counts to 0.
-                    </p>
-                </div>
-            `;
-            document.getElementById('reset-system-btn').addEventListener('click', handleSystemReset);
+        function updateStock(id, value) {
+            const item = state.menuItems.find(i => i.id === id);
+            item.stock = parseInt(value) || 0;
+            item.soldOut = item.stock === 0;
+            renderStockManagement();
         }
 
         function handleSystemReset() {
-            // Using a custom modal instead of prompt
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.innerHTML = `
                 <div class="modal-content">
-                    <h2>Confirm Reset</h2>
-                    <p>This will delete ALL orders and reset ALL stock. This cannot be undone.</p>
-                    <div class="form-group" style="margin-top: 1.5rem;">
-                         <label for="confirm-text">Type "RESET" to confirm.</label>
-                         <input type="text" id="confirm-text">
-                    </div>
-                    <div class="modal-actions">
-                        <button class="btn btn-secondary">Cancel</button>
-                        <button class="btn btn-danger">Confirm Reset</button>
+                    <h2>Confirm End-of-Day Reset</h2>
+                    <p>All stock will be reset to default levels. Proceed?</p>
+                    <div class="modal-buttons">
+                        <button class="btn btn-danger" id="confirmReset">Yes, Reset</button>
+                        <button class="btn btn-secondary" id="cancelReset">Cancel</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
 
-            const cancelBtn = modal.querySelector('.btn-secondary');
-            const confirmBtn = modal.querySelector('.btn-danger');
-            const confirmInput = modal.querySelector('#confirm-text');
+            document.getElementById('confirmReset').addEventListener('click', () => {
+                // Reset stock to initial sample data
+                state.menuItems = sampleItems.map(item => ({ ...item }));
+                state.cart = [];
+                renderStockManagement();
+                modal.remove();
+            });
 
-            cancelBtn.addEventListener('click', () => modal.remove());
-            confirmBtn.addEventListener('click', () => {
-                if (confirmInput.value === "RESET") {
-                    state.orders = [];
-                    state.items.forEach(item => {
-                        item.currentOrdered = 0;
-                        item.manualSoldOut = false;
-                    });
-                    
-                    // Manually refresh the dashboard views
-                    renderOverview();
-                    renderStockManagement();
-                    renderLiveOrders();
-                    
-                    modal.remove();
-                } else {
-                    confirmInput.style.border = '1px solid red';
-                }
+            document.getElementById('cancelReset').addEventListener('click', () => {
+                modal.remove();
             });
         }
 
-
-        // --- APP INITIALIZATION ---
-        function init() {
-            window.addEventListener('hashchange', router);
-            checkOrderingWindow();
-            router();
-        }
-
-        // Start the app!
-        init();
+        // --- Initialize ---
+        renderLogin();
     </script>
 </body>
 
 </html>
-
-
